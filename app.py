@@ -1,11 +1,20 @@
 import streamlit as st
-import ollama
+from groq import Groq
 from duckduckgo_search import DDGS
 import re
 # Assuming bank_rules.py is available in the same directory
 from bank_rules import get_bank_rules 
 import textwrap
 from datetime import datetime, timedelta
+# --- CHANGE 1: Initialize client globally and set correct Model Name ---
+client = None 
+MODEL_NAME = "llama-3.1-8b-instant" # <--- Vital Fix: Groq doesn't know "llama3.2"
+
+try:
+    client = Groq(api_key=st.secrets["GROQ_API_KEY"])
+except Exception as e:
+    st.error("⚠️ Groq API Key missing! Check .streamlit/secrets.toml")
+    st.stop()
 
 class IndianDivorceSystem:
     """
@@ -189,7 +198,7 @@ if __name__ == "__main__":
     print(f"   {tax_msg}")
 
 # --- CONFIGURATION ---
-MODEL_NAME = "llama3.2" 
+MODEL_NAME = "llama-3.1-8b-instant"
 DEFAULT_LOCATION = "India" 
 
 # --- TRIGGER FOR LOAN SIMULATOR (STRICT MODE) ---
@@ -320,9 +329,15 @@ def generate_bank_constraints(research, task):
     Research Data: {research}
     OUTPUT MUST be a simple, consolidated bulleted list of 5-7 verified facts.
     """
+    # --- CHANGE 2: Replace Ollama call with Groq ---
     try:
-        response = ollama.chat(model=MODEL_NAME, messages=[{'role': 'user', 'content': extraction_prompt}])
-        return response['message']['content']
+        # Added 'global client' to fix Pylance undefined variable error
+        global client 
+        response = client.chat.completions.create(
+            model=MODEL_NAME, 
+            messages=[{'role': 'user', 'content': extraction_prompt}]
+        )
+        return response.choices[0].message.content
     except Exception as e:
         return f"Extraction Failed: {str(e)}"
 
@@ -1646,12 +1661,27 @@ def generate_master_plan(research, task, links_found, mode="GENERAL"):
     {disclaimer}
     """
     
+    # --- CHANGE 3: Replace Ollama call with Groq ---
     try:
-        response = ollama.chat(model=MODEL_NAME, messages=[{'role': 'user', 'content': final_prompt}])
-        master_plan = response['message']['content']
+        global client
+        response = client.chat.completions.create(
+            model=MODEL_NAME, 
+            messages=[{'role': 'user', 'content': final_prompt}],
+            temperature=0.1
+        )
+        master_plan = response.choices[0].message.content
         
+        # Keep your existing error check logic
         if "cannot provide information" in master_plan.lower():
             return "## ❌ Research Failure. Try simplifying your query."
+
+        # Keep your existing Diagram Logic (Do not delete the diagram code below this!)
+        # ... (rest of your diagram logic remains untouched)
+        
+        return master_plan
+        
+    except Exception as e:
+        return f"Final Generation Error: {str(e)}"
 
         # --- DIAGRAM LOGIC (Visual Guidance) ---
         diagram_query = None
