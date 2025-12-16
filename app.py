@@ -20,37 +20,11 @@ st.sidebar.image(
     width=200 # Set a fixed width
 )
 
-import streamlit as st
 
-# Force injection of GA4 tag using st.markdown
-# This is a common workaround to bypass the iframe issue in Streamlit
-time.sleep(1) 
-
-# Force injection of GA4 tag using st.markdown
-import streamlit as st
-# NOTE: We no longer need 'import time' or 'time.sleep(1)'
-from streamlit.components.v1 import html 
-
-# ----------------------------------------------------
-# FINAL, ROBUST GA4 INJECTION METHOD (st.components.v1.html)
-# ----------------------------------------------------
-
-GA_ID = 'G-3T6EB0F7V1'
-
-# Define the full HTML/JS code for GA4
-GA_HTML = f"""
-<script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){{dataLayer.push(arguments);}}
-  gtag('js', new Date());
-  gtag('config', '{GA_ID}');
-</script>
-"""
 
 # Inject the HTML component. We set the height to 0 to make it invisible.
 # This method is often more reliable than st.markdown for complex JS.
-html(GA_HTML, height=0)
+
 
 # ----------------------------------------------------
 
