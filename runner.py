@@ -1,22 +1,52 @@
-import subprocess
 import sys
-import os
+import pathlib
+from bs4 import BeautifulSoup # Dependency from inject_analytics.py
 import streamlit.web.cli as stcli
 
-# 1. Install necessary dependencies (BeautifulSoup)
-print("Installing beautifulsoup4 dependency...")
-# Use pip to install the required library for the injection script
-# The 'check=True' ensures that pip installation must succeed
-subprocess.run([sys.executable, "-m", "pip", "install", "beautifulsoup4"], check=True)
+# --- START: GA4 INJECTION CODE (Merged from inject_analytics.py) ---
 
-# 2. Run the GA4 injection script
-print("Running GA4 injection script...")
-# Use the Python interpreter to execute the injection script
-subprocess.run([sys.executable, "inject_analytics.py"], check=True)
+# 1. Your unique GA4 code
+GA_ID = 'G-3T6EB0F7V1'
+GA_JS = f"""
+<script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){{dataLayer.push(arguments);}}
+  gtag('js', new Date());
+  gtag('config', '{GA_ID}');
+</script>
+"""
 
-print("GA4 injection successful. Starting Streamlit app...")
+# 2. Locate Streamlit's internal index.html file
+# This path is relative to the Streamlit library installation
+index_path = pathlib.Path(stcli.__file__).parent.parent / "static" / "index.html"
 
-# 3. Launch the Streamlit app using the internal CLI commands
-# This is the most robust way to launch Streamlit from a Python process
+# 3. Read the HTML and find the <head> tag
+try:
+    html_content = index_path.read_text()
+    soup = BeautifulSoup(html_content, features="lxml")
+
+    # 4. Inject the GA4 script right before the closing </head> tag
+    # Use a check to prevent reinjection on reruns
+    if not soup.find(id='ga4-injected'):
+        placeholder_div = soup.new_tag("div", id='ga4-injected')
+        soup.head.append(placeholder_div)
+
+        # Inject the actual JS tag by replacing the <head> tag
+        html_content_modified = str(soup).replace("</head>", f"{GA_JS}\n</head>")
+
+        # 5. Overwrite the Streamlit index.html file
+        index_path.write_text(html_content_modified)
+
+    print(f"GA4 Tag {GA_ID} injected successfully into Streamlit index.html.")
+
+except FileNotFoundError:
+    print("Streamlit index.html file not found. GA4 injection skipped.")
+except Exception as e:
+    print(f"Error during GA4 injection: {e}")
+# --- END: GA4 INJECTION CODE ---
+
+
+# 6. Start the main Streamlit application
 sys.argv = ["streamlit", "run", "app.py"]
 sys.exit(stcli.main())
