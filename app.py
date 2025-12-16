@@ -6,6 +6,27 @@ import re
 from bank_rules import get_bank_rules 
 import textwrap
 from datetime import datetime, timedelta
+import streamlit.components.v1 as components
+
+def inject_ga():
+    # 1. Read the GA code from the HTML file
+    try:
+        with open("google_analytics.html", "r") as f:
+            html_code = f.read()
+            
+        # 2. Inject the code using Streamlit components (set height/width to 0 to hide it)
+        components.html(html_code, height=0, width=0)
+        
+    except FileNotFoundError:
+        # Handle the case where the HTML file is missing during deployment
+        pass
+
+# Call the function at the very top of your application script
+inject_ga()
+
+# --- Your existing Streamlit app code starts here ---
+st.title("Welcome to Clear Hai?")
+# ... rest of your code
 # --- CHANGE 1: Initialize client globally and set correct Model Name ---
 client = None 
 MODEL_NAME = "llama-3.1-8b-instant" # <--- Vital Fix: Groq doesn't know "llama3.2"
