@@ -6,7 +6,7 @@ import re
 from bank_rules import get_bank_rules 
 import textwrap
 from datetime import datetime, timedelta
-
+import time
 from PIL import Image # Need to install Pillow: pip install Pillow
 import os
 
