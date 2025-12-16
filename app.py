@@ -2,14 +2,14 @@ import streamlit as st
 from groq import Groq
 from duckduckgo_search import DDGS
 import re
-# Assuming bank_rules.py is available in the same directory
 from bank_rules import get_bank_rules 
 import textwrap
 from datetime import datetime, timedelta
-import time
-from PIL import Image # Need to install Pillow: pip install Pillow
-import os
-
+# The 'time' import is only needed if you use time.sleep() later in the code.
+# If not, remove it.
+from PIL import Image
+import os 
+# Note: The "import streamlit as st" at the top is redundant if it's already there.
 
 # Load the local file
 logo_image = Image.open('logo.png')
@@ -18,37 +18,18 @@ logo_image = Image.open('logo.png')
 st.sidebar.image(
     logo_image,
     caption="Clear Hai? Legal Consultation",
-    width=200 # Set a fixed width
+    width=200
 )
-GA_HTML = f"""
-<script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){{dataLayer.push(arguments);}}
-  gtag('js', new Date());
-  gtag('config', '{GA_ID}');
-</script>
-"""
-
-
-
-# Inject the HTML component. We set the height to 0 to make it invisible.
-# This method is often more reliable than st.markdown for complex JS.
-
 
 # ----------------------------------------------------
+# ALL GA4 CODE MUST BE REMOVED FROM HERE
+# The tracking will happen in the external index.html file.
+# ----------------------------------------------------
 
-# st.set_page_config(...) # Your normal app starts here
-# ... rest of your code
-# 1. GA4 Injection (MUST load first)
-
-
-# 2. Page Config (MUST load second)
-
-# ... rest of your code
 # --- CHANGE 1: Initialize client globally and set correct Model Name ---
 client = None 
-MODEL_NAME = "llama-3.1-8b-instant" # <--- Vital Fix: Groq doesn't know "llama3.2"
+MODEL_NAME = "llama-3.1-8b-instant" 
+# ... rest of your original code ...# <--- Vital Fix: Groq doesn't know "llama3.2"
 
 try:
     client = Groq(api_key=st.secrets["GROQ_API_KEY"])
