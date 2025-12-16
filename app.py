@@ -1,48 +1,47 @@
 import streamlit as st
 from groq import Groq
-# ... (other required imports)
-from PIL import Image 
+from duckduckgo_search import DDGS
+import re
+from bank_rules import get_bank_rules 
+import textwrap
+from datetime import datetime, timedelta
+# NOTE: 'time' and 'components' imports were removed as they are no longer needed
+from PIL import Image
 import os 
-logo_image = Image.open('logo.png')
-# Load the local file
+
+# --- IMAGE LOADING ---
+# If the file is in the root directory and named 'logo.png', this should work.
+# If it fails, the error will be caught by Streamlit's environment.
 try:
     logo_image = Image.open('logo.png')
-except FileNotFoundError:
-    st.error("Error: logo.png not found. App cannot start.")
-    st.stop() # <-- Added safety net
+except Exception as e:
+    # If the app is blank, this means the file is truly missing or unreadable.
+    print(f"CRITICAL ERROR: Failed to load logo.png: {e}") 
 
-# 1. Set the Tab Name & Icon (The "Favicon" users see in browser tabs)
+# 1. Set the Tab Name & Icon (MUST be first Streamlit command)
 st.set_page_config(
     page_title="Clear Hai? | The No-Nonsense Guide", 
     page_icon="✅", 
     layout="centered"
 )
 
-# Display in the sidebar (This must come *after* st.set_page_config)
-st.sidebar.image(
-    logo_image,
-    caption="Clear Hai? Legal Consultation",
-    width=200
-)
+# 2. Display the logo in the sidebar
+if 'logo_image' in locals() and logo_image:
+    st.sidebar.image(
+        logo_image,
+        caption="Clear Hai? Legal Consultation",
+        width=200
+    )
 
-# --- CHANGE 1: Initialize client globally and set correct Model Name ---
-# ... rest of your code ...
-# Note: The "import streamlit as st" at the top is redundant if it's already there.
-
-# Load the local file
-
-
-# Display in the sidebar
-
-
-# ----------------------------------------------------
-# ALL GA4 CODE MUST BE REMOVED FROM HERE
-# The tracking will happen in the external index.html file.
-# ----------------------------------------------------
-
-# --- CHANGE 1: Initialize client globally and set correct Model Name ---
+# --- GROQ CLIENT INITIALIZATION ---
 client = None 
 MODEL_NAME = "llama-3.1-8b-instant" 
+
+
+    # Do NOT use st.stop() here if you want to display the error.
+    # The app will stop itself if client is None later.
+
+# ... rest of your code ...
 # ... rest of your original code ...# <--- Vital Fix: Groq doesn't know "llama3.2"
 
 try:
