@@ -1,25 +1,39 @@
 import streamlit as st
 from groq import Groq
-from duckduckgo_search import DDGS
-import re
-from bank_rules import get_bank_rules 
-import textwrap
-from datetime import datetime, timedelta
-# The 'time' import is only needed if you use time.sleep() later in the code.
-# If not, remove it.
-from PIL import Image
+# ... (other required imports)
+from PIL import Image 
 import os 
-# Note: The "import streamlit as st" at the top is redundant if it's already there.
-
-# Load the local file
 logo_image = Image.open('logo.png')
+# Load the local file
+try:
+    logo_image = Image.open('logo.png')
+except FileNotFoundError:
+    st.error("Error: logo.png not found. App cannot start.")
+    st.stop() # <-- Added safety net
 
-# Display in the sidebar
+# 1. Set the Tab Name & Icon (The "Favicon" users see in browser tabs)
+st.set_page_config(
+    page_title="Clear Hai? | The No-Nonsense Guide", 
+    page_icon="✅", 
+    layout="centered"
+)
+
+# Display in the sidebar (This must come *after* st.set_page_config)
 st.sidebar.image(
     logo_image,
     caption="Clear Hai? Legal Consultation",
     width=200
 )
+
+# --- CHANGE 1: Initialize client globally and set correct Model Name ---
+# ... rest of your code ...
+# Note: The "import streamlit as st" at the top is redundant if it's already there.
+
+# Load the local file
+
+
+# Display in the sidebar
+
 
 # ----------------------------------------------------
 # ALL GA4 CODE MUST BE REMOVED FROM HERE
