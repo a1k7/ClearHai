@@ -20,23 +20,19 @@ st.sidebar.image(
     width=200 # Set a fixed width
 )
 
-def inject_ga():
-    try:
-        # Read the contents of the GA4 HTML file
-        # 'os.path.join' ensures the path works across different operating systems
-        with open(os.path.join(os.path.dirname(__file__), "google_analytics.html"), "r") as f: 
-            html_code = f.read()
-        
-        # Inject the HTML code as a hidden component
-        components.html(html_code, height=0, width=0)
-        
-    except FileNotFoundError:
-        # Log or handle the error if the HTML file is missing 
-        print("GA4 HTML file not found. Tracking will not be active.")
-        pass
+import streamlit as st
 
-# Call the function at the absolute top of your script
-inject_ga()
+# Force injection of GA4 tag using st.markdown
+# This is a common workaround to bypass the iframe issue in Streamlit
+st.markdown("""
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3T6EB0F7V1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-3T6EB0F7V1');
+</script>
+""", unsafe_allow_html=True)
 # 1. GA4 Injection (MUST load first)
 
 
