@@ -7,6 +7,17 @@ from bank_rules import get_bank_rules
 import textwrap
 from datetime import datetime, timedelta
 import streamlit.components.v1 as components
+from PIL import Image # Need to install Pillow: pip install Pillow
+
+# Load the local file
+logo_image = Image.open('/Users/akhileshwarik/Downloads/Gemini_Generated_Image_vv2wn8vv2wn8vv2w.png')
+
+# Display in the sidebar
+st.sidebar.image(
+    logo_image,
+    caption="Clear Hai? Legal Consultation",
+    width=200 # Set a fixed width
+)
 
 def inject_ga():
     # 1. Read the GA code from the HTML file
@@ -23,9 +34,11 @@ def inject_ga():
 
 # Call the function at the very top of your application script
 inject_ga()
+# 1. GA4 Injection (MUST load first)
 
-# --- Your existing Streamlit app code starts here ---
-st.title("Welcome to Clear Hai?")
+
+# 2. Page Config (MUST load second)
+
 # ... rest of your code
 # --- CHANGE 1: Initialize client globally and set correct Model Name ---
 client = None 
