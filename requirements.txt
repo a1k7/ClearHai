@@ -2,3 +2,4 @@ streamlit
 duckduckgo-search
 groq
 beautifulsoup4
+streamlit-analytics
