@@ -10,7 +10,7 @@ import streamlit.components.v1 as components
 from PIL import Image # Need to install Pillow: pip install Pillow
 
 # Load the local file
-logo_image = Image.open('/Users/akhileshwarik/Desktop/form_fixer/Gemini_Generated_Image_vv2wn8vv2wn8vv2w.png')
+logo_image = Image.open('logo.png')
 
 # Display in the sidebar
 st.sidebar.image(
