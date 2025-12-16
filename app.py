@@ -24,13 +24,18 @@ import streamlit as st
 
 # Force injection of GA4 tag using st.markdown
 # This is a common workaround to bypass the iframe issue in Streamlit
-st.markdown("""
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-3T6EB0F7V1"></script>
+time.sleep(1) 
+
+# Force injection of GA4 tag using st.markdown
+GA_ID = 'G-3T6EB0F7V1'
+
+st.markdown(f"""
+<script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
+  function gtag(){{dataLayer.push(arguments);}}
   gtag('js', new Date());
-  gtag('config', 'G-3T6EB0F7V1');
+  gtag('config', '{GA_ID}');
 </script>
 """, unsafe_allow_html=True)
 # 1. GA4 Injection (MUST load first)
