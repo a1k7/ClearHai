@@ -1,17 +1,22 @@
 import subprocess
 import sys
 import os
+import streamlit.web.cli as stcli
 
-# 1. Run the GA4 injection script first
-# We use the same python executable to ensure environment is correct
+# 1. Install necessary dependencies (BeautifulSoup)
+print("Installing beautifulsoup4 dependency...")
+# Use pip to install the required library for the injection script
+# The 'check=True' ensures that pip installation must succeed
+subprocess.run([sys.executable, "-m", "pip", "install", "beautifulsoup4"], check=True)
+
+# 2. Run the GA4 injection script
 print("Running GA4 injection script...")
-
-# We use the full path to the python executable and the script name
+# Use the Python interpreter to execute the injection script
 subprocess.run([sys.executable, "inject_analytics.py"], check=True)
 
 print("GA4 injection successful. Starting Streamlit app...")
 
-# 2. Start the main Streamlit application
-# The 'streamlit' command is available in the environment's path
-# We start the app, replacing the current process (the runner script)
-os.execv(sys.executable, [sys.executable, "-m", "streamlit", "run", "app.py"])
+# 3. Launch the Streamlit app using the internal CLI commands
+# This is the most robust way to launch Streamlit from a Python process
+sys.argv = ["streamlit", "run", "app.py"]
+sys.exit(stcli.main())
