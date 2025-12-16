@@ -8,7 +8,28 @@ import textwrap
 from datetime import datetime, timedelta
 import streamlit.components.v1 as components
 from PIL import Image # Need to install Pillow: pip install Pillow
+import streamlit as st
+import streamlit.components.v1 as components
+import os
 
+# Function to inject the GA4 code from the HTML file
+def inject_ga():
+    try:
+        # Read the contents of the GA4 HTML file
+        with open("google_analytics.html", "r") as f:
+            html_code = f.read()
+        
+        # Inject the HTML code as a hidden component
+        # Setting height=0 and width=0 makes it invisible but functional.
+        components.html(html_code, height=0, width=0)
+        
+    except FileNotFoundError:
+        # This handles the error if the HTML file is missing during deployment
+        # You can add a logging statement here if needed
+        pass
+
+# Call the function to run the injection
+inject_ga()
 # Load the local file
 logo_image = Image.open('logo.png')
 
@@ -19,21 +40,7 @@ st.sidebar.image(
     width=200 # Set a fixed width
 )
 
-def inject_ga():
-    # 1. Read the GA code from the HTML file
-    try:
-        with open("google_analytics.html", "r") as f:
-            html_code = f.read()
-            
-        # 2. Inject the code using Streamlit components (set height/width to 0 to hide it)
-        components.html(html_code, height=0, width=0)
-        
-    except FileNotFoundError:
-        # Handle the case where the HTML file is missing during deployment
-        pass
 
-# Call the function at the very top of your application script
-inject_ga()
 # 1. GA4 Injection (MUST load first)
 
 
