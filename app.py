@@ -27,9 +27,18 @@ import streamlit as st
 time.sleep(1) 
 
 # Force injection of GA4 tag using st.markdown
+import streamlit as st
+# NOTE: We no longer need 'import time' or 'time.sleep(1)'
+from streamlit.components.v1 import html 
+
+# ----------------------------------------------------
+# FINAL, ROBUST GA4 INJECTION METHOD (st.components.v1.html)
+# ----------------------------------------------------
+
 GA_ID = 'G-3T6EB0F7V1'
 
-st.markdown(f"""
+# Define the full HTML/JS code for GA4
+GA_HTML = f"""
 <script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -37,7 +46,16 @@ st.markdown(f"""
   gtag('js', new Date());
   gtag('config', '{GA_ID}');
 </script>
-""", unsafe_allow_html=True)
+"""
+
+# Inject the HTML component. We set the height to 0 to make it invisible.
+# This method is often more reliable than st.markdown for complex JS.
+html(GA_HTML, height=0)
+
+# ----------------------------------------------------
+
+# st.set_page_config(...) # Your normal app starts here
+# ... rest of your code
 # 1. GA4 Injection (MUST load first)
 
 
