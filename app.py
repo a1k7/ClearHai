@@ -10,6 +10,7 @@ import time
 from PIL import Image # Need to install Pillow: pip install Pillow
 import os
 
+
 # Load the local file
 logo_image = Image.open('logo.png')
 
@@ -19,6 +20,15 @@ st.sidebar.image(
     caption="Clear Hai? Legal Consultation",
     width=200 # Set a fixed width
 )
+GA_HTML = f"""
+<script async src="https://www.googletagmanager.com/gtag/js?id={GA_ID}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){{dataLayer.push(arguments);}}
+  gtag('js', new Date());
+  gtag('config', '{GA_ID}');
+</script>
+"""
 
 
 
