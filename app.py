@@ -8,32 +8,9 @@ from datetime import datetime, timedelta
 # NOTE: 'time' and 'components' imports were removed as they are no longer needed
 from PIL import Image
 import os 
-import streamlit as st
 
-# Initialize language in session state if not present
-if "language" not in st.session_state:
-    st.session_state.language = "English"
 
-# Sidebar Language Selector
-with st.sidebar:
-    st.header(LANGUAGES[st.session_state.language]["sidebar_header"])
-    selected_lang = st.radio(
-        "Select Language / भाषा चुनें",
-        options=["English", "Hindi"],
-        index=0 if st.session_state.language == "English" else 1
-    )
-    st.session_state.language = selected_lang
 
-# Load the current translations
-t = LANGUAGES[st.session_state.language]
-
-# Use the 't' dictionary for all display text
-st.title(t["title"])
-st.write(t["mission_statement"])
-
-if st.button(t["button_label"]):
-    st.subheader(t["result_header"])
-    # Your logic here...
 # --- IMAGE LOADING ---
 # If the file is in the root directory and named 'logo.png', this should work.
 # If it fails, the error will be caught by Streamlit's environment.
