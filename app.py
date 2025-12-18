@@ -34,18 +34,13 @@ st.markdown("""
     strong { color: #fff; font-weight: 600; }
     
     /* Inputs */
-    .stTextInput > div > div > input {
+    .stTextInput > div > div > input, .stSelectbox > div > div > div, .stNumberInput > div > div > input {
         background-color: #1e293b !important;
         color: #ffffff !important;
         border: 1px solid #334155 !important;
-        border-radius: 24px !important;
-        padding: 22px 25px !important;
-        font-size: 16px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.2) !important;
-        transition: all 0.3s ease;
+        border-radius: 12px !important;
     }
-    .stTextInput > div > div > input:focus { border-color: #3b82f6 !important; }
-
+    
     /* Buttons */
     .stButton > button {
         width: 100%;
@@ -76,7 +71,7 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # ==============================================================================
-# 2. CORE SETUP & CONSTANTS (DEFINED FIRST)
+# 2. CORE SETUP & CONSTANTS
 # ==============================================================================
 
 client = None 
@@ -125,14 +120,17 @@ OFFICIAL_PORTALS = {
     "TRAVEL_DOCS": "[**Passport Seva**](https://www.passportindia.gov.in/) | [**OCI Services**](https://ociservices.gov.in/)",
     "CYBER_SAFETY": "[**National Cyber Crime Reporting Portal**](https://cybercrime.gov.in/) | [**Sanchar Saathi (TAFCOP)**](https://sancharsaathi.gov.in/)",
     "BANKING_DISPUTE": "[**RBI Integrated Ombudsman (CMS)**](https://cms.rbi.org.in/)",
-    "PAN": "[**NSDL (Protean) PAN**](https://www.onlineservices.nsdl.com/paam/endUserRegisterContact.html)",
-    "EDU_ADMISSION": "[**Vidya Lakshmi Portal (Loans)**](https://www.vidyalakshmi.co.in/)"
+    "BANKING_CARDS": "[**RBI Master Direction on Credit Cards**](https://www.rbi.org.in/Scripts/NotificationUser.aspx?Id=12300&Mode=0)",
+    "PAN": "[**NSDL (Protean) PAN**](https://www.onlineservices.nsdl.com/paam/endUserRegisterContact.html) | [**UTIITSL PAN**](https://www.pan.utiitsl.com/)",
+    "EDU_ADMISSION": "[**Vidya Lakshmi Portal (Loans)**](https://www.vidyalakshmi.co.in/) | [**National Scholarship Portal**](https://scholarships.gov.in/)"
 }
 
 BANK_LINKS = {
     "State Bank of India": "https://sbi.co.in/web/personal-banking/loans/home-loans",
     "HDFC Bank": "https://www.hdfcbank.com/personal/borrow/popular-loans/home-loan",
     "ICICI Bank": "https://www.icicibank.com/personal-banking/loans/home-loan",
+    "Punjab National Bank": "https://www.pnbindia.in/home-loan.html",
+    "Bank of Baroda": "https://www.bankofbaroda.in/personal-banking/loans/home-loan"
 }
 
 # ==============================================================================
@@ -176,20 +174,45 @@ class RBIBankingStandards:
     TDS_LIMIT_SENIOR = 50000 
 
 def get_bank_rules(bank_name):
-    """
-    Returns verified 2025 rates for major banks.
-    """
     bn = bank_name.upper()
     if "SBI" in bn or "STATE BANK" in bn:
         return {"Interest_Rate": "8.50% - 9.65%", "Processing_Fee": "0.35% (Max ₹10k)", "Max_FOIR": "50%", "Min_CIBIL": "750"}
+    elif "PNB" in bn or "PUNJAB NATIONAL" in bn:
+        return {"Interest_Rate": "8.40% - 10.15%", "Processing_Fee": "0.35% + GST", "Max_FOIR": "50%", "Min_CIBIL": "750"}
+    elif "BARODA" in bn:
+        return {"Interest_Rate": "8.40% - 10.60%", "Processing_Fee": "0.50% (Max ₹15k)", "Max_FOIR": "50%", "Min_CIBIL": "725"}
+    elif "BANK OF INDIA" in bn:
+        return {"Interest_Rate": "8.30% - 10.75%", "Processing_Fee": "0.25% (Min ₹1.5k)", "Max_FOIR": "50%", "Min_CIBIL": "750"}
+    elif "CANARA" in bn:
+        return {"Interest_Rate": "8.50% - 11.25%", "Processing_Fee": "0.50% (Min ₹1.5k)", "Max_FOIR": "50%", "Min_CIBIL": "750"}
+    elif "UNION" in bn:
+        return {"Interest_Rate": "8.35% - 10.75%", "Processing_Fee": "0.50% (Max ₹15k)", "Max_FOIR": "50%", "Min_CIBIL": "750"}
+    elif "MAHARASHTRA" in bn:
+        return {"Interest_Rate": "8.35% - 10.80%", "Processing_Fee": "0.25% (Waived often)", "Max_FOIR": "50%", "Min_CIBIL": "750"}
+    elif "INDIAN BANK" in bn:
+        return {"Interest_Rate": "8.40% - 9.90%", "Processing_Fee": "0.23% (Max ₹20k)", "Max_FOIR": "50%", "Min_CIBIL": "750"}
+    elif "IOB" in bn or "OVERSEAS" in bn:
+        return {"Interest_Rate": "8.40% - 9.70%", "Processing_Fee": "0.50% (Max ₹10k)", "Max_FOIR": "50%", "Min_CIBIL": "750"}
+    elif "CENTRAL" in bn:
+        return {"Interest_Rate": "8.35% - 9.80%", "Processing_Fee": "0.50% (Max ₹20k)", "Max_FOIR": "50%", "Min_CIBIL": "725"}
+    elif "UCO" in bn:
+        return {"Interest_Rate": "8.45% - 10.30%", "Processing_Fee": "0.50% (Min ₹1.5k)", "Max_FOIR": "50%", "Min_CIBIL": "725"}
+    elif "PUNJAB & SIND" in bn:
+        return {"Interest_Rate": "8.50% - 10.00%", "Processing_Fee": "0.50% + GST", "Max_FOIR": "50%", "Min_CIBIL": "750"}
     elif "HDFC" in bn:
         return {"Interest_Rate": "8.75% - 9.40%", "Processing_Fee": "0.50% or ₹3000", "Max_FOIR": "60%", "Min_CIBIL": "760"}
     elif "ICICI" in bn:
         return {"Interest_Rate": "9.00% - 9.10%", "Processing_Fee": "0.50% - 2.00%", "Max_FOIR": "55%", "Min_CIBIL": "750"}
     elif "AXIS" in bn:
-        return {"Interest_Rate": "8.60% - 9.05%", "Processing_Fee": "1% (Min ₹10k)", "Max_FOIR": "50%", "Min_CIBIL": "750"}
+        return {"Interest_Rate": "8.75% - 9.15%", "Processing_Fee": "1% (Min ₹10k)", "Max_FOIR": "60%", "Min_CIBIL": "750"}
     elif "KOTAK" in bn:
         return {"Interest_Rate": "8.70% onwards", "Processing_Fee": "0.50% + GST", "Max_FOIR": "60%", "Min_CIBIL": "750"}
+    elif "INDUSIND" in bn:
+        return {"Interest_Rate": "8.75% - 10.50%", "Processing_Fee": "1.00% + GST", "Max_FOIR": "65%", "Min_CIBIL": "725"}
+    elif "YES" in bn:
+        return {"Interest_Rate": "9.40% onwards", "Processing_Fee": "1.00% - 2.00%", "Max_FOIR": "60%", "Min_CIBIL": "700"}
+    elif "FEDERAL" in bn:
+        return {"Interest_Rate": "8.80% - 10.15%", "Processing_Fee": "0.50% (Min ₹3k)", "Max_FOIR": "60%", "Min_CIBIL": "730"}
     else:
         return {"Interest_Rate": "8.50% - 10.50%", "Processing_Fee": "0.50% - 1.00%", "Max_FOIR": "50%", "Min_CIBIL": "750"}
 
@@ -347,6 +370,55 @@ def generate_master_plan(research, task, links_found, mode="GENERAL"):
             documents_content = "1. **Admission Letter**.\n2. **Income Certificate** (for Scholarships).\n3. **KYC of Student & Parent**."
             fees_content = "**Loan Processing:** NIL for schemes < ₹4 Lakhs."
             timeline_content = "**Loan:** 15-30 days. **Admission:** As per counseling schedule."
+        # [NEW] SMART INVESTMENT LOGIC
+        elif "INVEST" in task_upper:
+            # Check Duration (Simple Keyword Check)
+            is_long_term = any(x in task_upper for x in ["YEARS", "LONG TERM", "5 YEAR", "10 YEAR"])
+            is_short_term = any(x in task_upper for x in ["MONTH", "DAYS", "SHORT TERM", "1 YEAR"])
+            
+            specific_constraints = "Focus on Inflation-adjusted returns and Tax Efficiency."
+            
+            if is_long_term: # > 3 Years
+                eligibility_content = "**Resident Individual** with valid KYC (PAN/Aadhaar)."
+                documents_content = "1. **PAN & Aadhaar**.\n2. **Bank Proof:** Cancelled Cheque.\n3. **CKYC Status:** Central KYC Registry check."
+                fees_content = "**Expense Ratio:** ~0.10% - 0.50% (Direct Mutual Funds). **Exit Load:** NIL after 1 year."
+                timeline_content = "**Setup:** 1-2 Days. **Growth:** Compounding works best over 5+ years."
+                
+                # The "Expert" Advice Section
+                disclaimer = "**RISK NOTE:** Equity investments are subject to market risks but historically beat inflation over 5+ years."
+                eligibility_content += """
+                
+                ### 💡 Best Options for 6+ Years (Growth Focused):
+                1.  **Index Mutual Funds (Nifty 50):**
+                    * *Avg Return:* ~12% - 14% (Historical).
+                    * *Why:* Low cost, beats inflation, lower tax (12.5% LTCG) than FDs.
+                2.  **Sovereign Gold Bonds (SGB):**
+                    * *Return:* 2.5% Interest + Gold Price Appreciation.
+                    * *Why:* Tax-FREE if held till maturity (8 years). Safe (Govt backed).
+                3.  **Corporate FDs (AAA Rated):**
+                    * *Return:* ~7.5% - 8.5%.
+                    * *Why:* Higher rates than bank FDs, but slightly higher risk.
+                """
+                extra_logic_output = ""
+                
+            else: # Short Term (< 3 Years)
+                eligibility_content = "**Resident Individual**."
+                documents_content = "PAN, Aadhaar, Bank Details."
+                fees_content = "NIL for FDs."
+                timeline_content = "**FD Creation:** Instant (NetBanking)."
+                
+                disclaimer = "**TAX WARNING:** Interest from FDs/Debt Funds is added to your income and taxed at your slab rate."
+                eligibility_content += """
+                
+                ### 💡 Best Options for Short Term (Safety First):
+                1.  **Bank Fixed Deposit (FD):**
+                    * *Return:* ~6.5% - 7.5%.
+                    * *Why:* Capital protection.
+                2.  **Liquid / Arbitrage Funds:**
+                    * *Return:* ~7% (Arbitrage funds are taxed lower like Equity).
+                    * *Why:* Better liquidity than FD (No penalty on withdrawal).
+                """
+                extra_logic_output = ""
 
         # 6. PROPERTY REGISTRATION
         elif current_topic_key == "PROP_REG":
@@ -510,26 +582,32 @@ def generate_master_plan(research, task, links_found, mode="GENERAL"):
                 pass # Default logic
 
         # 13. BANKING DISPUTE
+        # 13. BANKING DISPUTE (UPDATED FOR AGGRESSIVE ESCALATION)
         elif current_topic_key == "BANKING_DISPUTE":
-            if "FREEZE" in task_upper:
-                specific_constraints = "Distinguish between KYC Non-compliance and Cyber Cell instructions."
-                disclaimer = "**LEGAL REALITY:** For Cyber freezes, the Bank needs a Police NOC to unfreeze."
-                eligibility_content = "Account Holder."
-                documents_content = "**For KYC:** Re-KYC Form. **For Police:** Application + Explanation + NOC."
-                fees_content = "**NIL.**"
-                timeline_content = "**KYC:** 24-48 Hours. **Cyber:** Indefinite."
-            elif "SCORE" in task_upper:
-                disclaimer = "No agent can 'delete' a valid loan default."
-                eligibility_content = "Any individual."
-                documents_content = "None (Online check)."
-                fees_content = "**1 Free Report/Year**."
-                timeline_content = "**Dispute:** 30 Days."
-            else:
-                specific_constraints = "RBI Zero Liability Circular."
-                disclaimer = "**RBI MANDATE:** Report fraud within **3 days** for Zero Liability."
-                documents_content = "1. **Dispute Form**.\n2. **Transaction Proof**."
-                fees_content = "**NIL.**"
-                timeline_content = "**Resolution:** 90 days max."
+            if "FREEZE" in task_upper or "LIEN" in task_upper:
+                specific_constraints = "Focus on 'Deficiency of Service' under Consumer Protection Act 2019."
+                disclaimer = "**LEGAL REALITY:** For Cyber freezes, the Bank needs a Police NOC to unfreeze. If they delay after NOC, it is a violation."
+                
+                eligibility_content = "Account Holder with a **Police NOC** or Court Order."
+                
+                documents_content = """
+                1. **Police NOC:** Physical or Digitally Signed copy stating "No Objection" to unfreezing.
+                2. **Application Letter:** Citing "Deficiency of Service".
+                3. **KYC Documents:** Fresh Pan/Aadhaar (if requested).
+                """
+                
+                fees_content = "**NIL.** Banks cannot charge for removing a lien if the case is cleared."
+                timeline_content = "**Nodal Officer:** 7 Working Days (Mandatory turnaround time)."
+                
+                # INJECTING THE KILLER TEMPLATE
+                eligibility_content += """
+                
+                ### ⚡ Recommended Email Strategy:
+                Don't just "Request". **Demand.** Use this template structure:
+                * **Subject:** FINAL ESCALATION: Unlawful Lien on Acct [No] - NOC Attached.
+                * **Legal Ground:** Cite "Deficiency of Service" for delaying funds after legal clearance.
+                * **Ultimatum:** Give them **7 Days** before escalating to RBI Ombudsman.
+                """
 
         # 14. BUSINESS REG
         elif current_topic_key == "BIZ_REG":
@@ -717,70 +795,58 @@ def generate_master_plan(research, task, links_found, mode="GENERAL"):
 
 # ==============================================================================
 # 6. FINANCIAL SIMULATOR LOGIC
+# ================================
+
+# ==============================================================================
+# 6. FINANCIAL SIMULATOR LOGIC (UPDATED WITH EMPLOYER RISK)
 # ==============================================================================
 
-def calculate_rejection_risk(salary_range, emis, credit_score, selected_bank):
-    avg_salary = (salary_range[0] + salary_range[1]) / 2
-    nmi_estimate = avg_salary * 0.45 
+def calculate_rejection_risk(salary_input, emis, credit_score, selected_bank, employer_type):
+    # salary_input is now a single float/int
+    nmi_estimate = float(salary_input) * 0.45 
     current_emis = float(emis) if emis else 0
     estimated_foir = (current_emis / nmi_estimate) if nmi_estimate > 0 else 1.0
     
     risk_foir = ""
-    foir_explanation = "FOIR measures how much of your Net Monthly Income is already committed to EMIs. Even small existing EMIs can increase FOIR when combined with higher loan amounts."
-    
     if estimated_foir > 0.60:
-        risk_foir = f"FOIR (EMI-to-Income Ratio) is critically high. Loan will likely be rejected. ({foir_explanation})"
-    elif estimated_foir > 0.45:
-        risk_foir = f"FOIR is borderline. Reduce existing EMIs to qualify for the required loan amount. ({foir_explanation})"
+        risk_foir = f"High FOIR: Your existing EMIs eat up {(estimated_foir*100):.0f}% of your lending capacity."
     
     risk_cibil = ""
     score = int(credit_score.split('-')[0]) if '-' in credit_score else (750 if credit_score == '800+' else 600)
     if score < 700:
-        risk_cibil = f"Credit Score ({score}) is below the preferred 700+ threshold."
+        risk_cibil = "Low Credit Score: Banks prefer 750+ for best rates."
+        
+    # Employer Category Risk Logic
+    conservative_banks = ["SBI", "STATE BANK", "KOTAK", "PNB", "BARODA", "UNION", "BOI", "CANARA", "MAHARASHTRA", "UCO", "IOB", "CENTRAL", "INDIAN BANK", "PUNJAB & SIND"]
+    is_conservative_target = any(cb in selected_bank.upper() for cb in conservative_banks)
     
     risks = []
     if risk_foir: risks.append(risk_foir)
     if risk_cibil: risks.append(risk_cibil)
     
-    if len(risks) == 0:
-        likelihood = "Very High Approval Likelihood"
-        fix = "You have a strong profile. Proceed with documentation. (No Major Rejection Risks Detected)"
-    elif len(risks) == 1:
-        likelihood = "Medium Risk Profile"
-        if "Credit Score" in risks[0]:
-            fix = "Reduce outstanding balances and avoid new credit enquiries. Score improvements are typically reflected in 30–90 days."
-        else:
-            fix = "Focus on closing a personal loan or reducing credit card limits this week."
-    else:
-        likelihood = "High Rejection Risk"
-        fix = "Address both your Credit Score and EMI structure before proceeding."
+    if "Startup" in employer_type or "Self-Employed" in employer_type:
+        if is_conservative_target:
+            risks.append(f"**Company Categorization Risk:** {selected_bank} is conservative. They often reject 'Startup/Unlisted' profiles even with high CIBIL. Consider HDFC/ICICI or NBFCs.")
+
+    if not risks: 
+        return "Very High Approval Likelihood", [], "Your profile looks solid."
     
-    return likelihood, risks, fix
+    # Determine Status based on risks
+    if len(risks) >= 2 or "Company Categorization Risk" in str(risks):
+        return "Medium/High Rejection Risk", risks, "Try a different bank (Private/NBFC) or reduce EMIs."
+    else:
+        return "Medium Risk Profile", risks, "Close existing loans to lower FOIR."
 
 # ==============================================================================
-# 7. UI INTERFACE (SIDEBAR & MAIN)
+# 7. UI INTERFACE
 # ==============================================================================
 
 # --- SIDEBAR ---
 with st.sidebar:
     st.markdown("### ❓ Why 'Clear Hai'?")
-    st.info("""
-    **Because Indian Bureaucracy is a Black Box.**
-    
-    You apply for a loan, and they say "Rejected" without explaining **FOIR**. 
-    You go for a visa, and an agent charges ₹5,000 for a free form.
-    
-    We built **Clear Hai?** to fix this.
-    """)
+    st.info("**Because Indian Bureaucracy is a Black Box.**\n\nWe decode the hidden rules so you don't have to pay agents.")
     st.markdown("---")
-    st.markdown("### 🛡️ Our Promise")
-    st.markdown("""
-    * **Code > Opinions:** We don't guess. We run your data against official RBI Master Directions and Legal Acts.
-    * **Zero Commission:** We don't sell loans. We don't sell your data.
-    * **Privacy First:** Your data (salary, documents) stays in your browser session. We don't store it.
-    """)
-    st.markdown("---")
-    st.caption("v1.0 | Data Sources: RBI, MHA, Income Tax Dept.")
+    st.caption("v2.1 | Data Sources: RBI, MHA, Income Tax Dept.")
 
 # --- MAIN HEADER ---
 st.markdown("<div style='text-align: center; margin-bottom: 20px;'><h1 style='font-size: 3.5rem; margin-bottom: 0;'>✅ Clear Hai?</h1></div>", unsafe_allow_html=True)
@@ -795,12 +861,12 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# --- DYNAMIC INPUT CHECK ---
-task = st.text_input("What do you want to do in India?", placeholder="e.g. Apply for PAN Card, ITR Filing, PF Withdrawal, Stamp Duty Calculation, File FIR")
+# --- DYNAMIC INPUT ---
+task = st.text_input("What do you want to do in India?", placeholder="e.g. Apply for PAN Card, ITR Filing, PF Withdrawal, Stamp Duty Calculation")
 
 # --- DETECT MODE ---
 is_loan_task = any(kw in task.upper() for kw in LOAN_SIMULATOR_KEYWORDS)
-master_plan = None # Initialize
+master_plan = None 
 
 # ==============================================================================
 # 8. FINANCIAL MODE BLOCK (SIMULATOR)
@@ -808,22 +874,19 @@ master_plan = None # Initialize
 if is_loan_task:
     st.markdown("### 🏦 Loan Approval Chances Simulator (Financial Mode)")
     
-    # Auto-Select Bank from Input Query
+    # Auto-Select Bank
     bank_index = 0
-    input_text_upper = task.upper()
-    bank_list = ["State Bank of India", "Punjab National Bank", "Bank of Baroda", "Canara Bank", "Union Bank of India", "Bank of India", "Indian Bank", "UCO Bank", "Indian Overseas Bank", "Central Bank of India", "Bank of Maharashtra", "Punjab & Sind Bank", "HDFC Bank", "ICICI Bank", "Axis Bank", "Kotak Mahindra Bank", "IndusInd Bank", "Yes Bank", "Federal Bank", "IDFC FIRST BANK"]
+    # Expanded Bank List (18+ Banks)
+    bank_list = [
+        "State Bank of India (SBI)", "Punjab National Bank (PNB)", "Bank of Baroda", "Canara Bank", 
+        "Union Bank of India", "Bank of India", "Indian Bank", "Central Bank of India", 
+        "Indian Overseas Bank", "UCO Bank", "Bank of Maharashtra", "Punjab & Sind Bank",
+        "HDFC Bank", "ICICI Bank", "Axis Bank", "Kotak Mahindra Bank", "IndusInd Bank", 
+        "Yes Bank", "Federal Bank"
+    ]
     
     for i, bank in enumerate(bank_list):
-        # Check for exact matches or common short codes like SBI, HDFC, ICICI
-        if bank.upper() in input_text_upper:
-            bank_index = i
-            break
-        # Special case for SBI
-        if "SBI" in input_text_upper and "State Bank" in bank:
-            bank_index = i
-            break
-        # Special case for HDFC
-        if "HDFC" in input_text_upper and "HDFC" in bank:
+        if bank.upper().split('(')[0].strip() in task.upper() or ("SBI" in task.upper() and "State" in bank):
             bank_index = i
             break
     
@@ -832,17 +895,15 @@ if is_loan_task:
         
         selected_bank = col1.selectbox("1. Which Bank are you applying to?", bank_list, index=bank_index)
         
-        salary_range_options=[(25000, 35000), (35001, 50000), (50001, 75000), (75001, 100000), (100001, 150000)]
-        salary_range_selected = col1.select_slider("2. Your Estimated Net Monthly Income (NMI) range?", 
-                                                    options=salary_range_options,
-                                                    format_func=lambda x: f"₹{x[0]:,} - ₹{x[1]:,}")
+        employer_type = col1.selectbox("2. Employer Type / Category", 
+                                       ["Government / PSU", "MNC / Public Ltd", "Private Ltd", "Startup / Unlisted", "Self-Employed"])
         
-        current_emis = col2.number_input("3. Total of ALL Existing EMIs / Month", min_value=0, value=5000, step=1000)
+        # CHANGED: Use Number Input for Salary
+        salary_input = col2.number_input("3. Net Monthly Income (NMI) (₹)", min_value=0, value=50000, step=1000, format="%d")
         
-        credit_score_options=["<650", "650-699", "700-749", "750-800", "800+"]
-        credit_score_selected = col2.select_slider("4. Your Approximate Credit Score (CIBIL)", options=credit_score_options, value="750-800")
+        current_emis = col2.number_input("4. Total Existing EMIs / Month", min_value=0, value=5000, step=1000)
         
-        city = st.text_input("5. Your City/Context", "Mumbai", placeholder="e.g. Mumbai, Delhi")
+        credit_score_selected = st.select_slider("5. Approximate Credit Score (CIBIL)", options=["<650", "650-699", "700-749", "750-800", "800+"], value="750-800")
         
         shock_factor = st.checkbox("🔥 Activate 'Bank Truth Mode' to see hidden risks agents won't tell you.", value=True)
         
@@ -852,7 +913,7 @@ if is_loan_task:
         bank_name_full = f"Get a {selected_bank} Home Loan"
         
         with st.status("🧠 Running Bank Validation Check...", expanded=False) as status:
-            likelihood, risks, fix = calculate_rejection_risk(salary_range_selected, current_emis, credit_score_selected, selected_bank)
+            likelihood, risks, fix = calculate_rejection_risk(salary_input, current_emis, credit_score_selected, selected_bank, employer_type)
             
             research_data, links_found = find_process_details(bank_name_full)
             master_plan = generate_master_plan(research_data, bank_name_full, links_found, mode="FINANCIAL")
@@ -861,82 +922,51 @@ if is_loan_task:
 
         st.divider()
         
-        st.markdown(f"## Your Approval Profile: {likelihood}")
-        st.caption(f"Estimate based on {selected_bank}'s public eligibility rules and your inputs. This is not a guarantee.") 
-        
-        if likelihood == "Very High Approval Likelihood":
-            score_color = "#33cc33" 
-        elif likelihood == "Medium Risk Profile":
-            score_color = "#ff9900"
-        else:
-            score_color = "#ff0000"
+        if "High Approval" in likelihood: score_color = "#33cc33" 
+        elif "Medium" in likelihood: score_color = "#ff9900"
+        else: score_color = "#ff0000"
         
         st.markdown(f"""
         <div style="text-align: center; padding: 20px; border: 3px solid {score_color}; border-radius: 10px;">
-            <h1 style="color: {score_color}; font-size: 48px; margin: 0;">{likelihood}</h1>
-            <p style="font-size: 20px; margin: 0;">Based on {selected_bank} Rules</p>
+            <h1 style="color: {score_color}; font-size: 32px; margin: 0;">{likelihood}</h1>
+            <p style="font-size: 18px; margin: 0;">Based on {selected_bank} Rules</p>
         </div>
         """, unsafe_allow_html=True)
         
-        st.markdown(f"## ⚠️ Top {len(risks)} Rejection Risks Detected")
-        for risk in risks: st.warning(f"❌ {risk}")
+        if risks:
+            st.markdown(f"### ⚠️ Rejection Risks Detected")
+            for risk in risks: st.error(f"{risk}")
         
-        st.markdown(f"## 🔧 Your Action Plan: One Fix This Week")
+        st.markdown(f"### 🔧 Action Plan")
         st.info(fix)
         
-        st.markdown("---")
-        st.warning("⚠️ Most people get rejected because of hidden metrics. Share before they apply.")
-        whatsapp_message = f"⚠️ My Home Loan Risk for {selected_bank} is {likelihood}. I used this free tool to find out the hidden risks. Check your risk now: [Link to your deployed App]"
-        st.link_button("📲 Share My Results (WhatsApp)", f"https://wa.me/?text={whatsapp_message}", type="secondary")
-
         if shock_factor:
             st.divider()
-            # The "Bank Truth Mode" Red Box
             st.markdown("""
             <div class="truth-box">
                 <h3>🔥 Bank Truth Mode Activated</h3>
-                <p><strong>This is what agents usually don’t explain:</strong> Even small existing EMIs can increase FOIR when combined with higher loan amounts. FOIR measures how much of your income is already committed to EMIs, and this is the key metric banks evaluate.</p>
+                <p><strong>Hidden Rule:</strong> Banks rate your <b>Employer</b> just as strictly as they rate you. If your company is on their internal 'Negative List' (common for startups), even an 800 CIBIL score won't save the application.</p>
             </div>
             """, unsafe_allow_html=True)
-            
-            st.markdown(f"### Expert Master Strategy (The full VAG Plan):")
-            # We will display the 'master_plan' in the Response Card section below instead of here to keep it clean
 
 # ==============================================================================
-# 9. GENERAL MODE BLOCK (STRATEGY GENERATOR)
+# 9. GENERAL MODE BLOCK
 # ==============================================================================
 elif task:
-    # --- GENERAL INPUTS (Non-Financial Mode: Passport, Visa, etc.) ---
-    st.markdown("### 🌎 General Master Strategy (Passport/Visa/Procedure Mode)")
-    st.caption("We will use a high-accuracy RAG model to generate your step-by-step strategy.")
-    
     general_submit = st.button("Generate Strategy 🚀", type="primary")
-
     if general_submit:
         with st.status("🧠 Searching Official Government Channels...", expanded=True) as status:
-            
             research_data, links_found = find_process_details(task)
             master_plan = generate_master_plan(research_data, task, links_found, mode="GENERAL")
-            
             status.update(label="✅ Strategy Ready!", state="complete")
 
 # ==============================================================================
-# 10. RESPONSE CARD RENDERER (SHARED FOR BOTH MODES)
+# 10. RESPONSE CARD RENDERER
 # ==============================================================================
 if master_plan:
     st.markdown("---")
-    
-    # DARK MODE RESPONSE CARD
     st.markdown(f"""
-    <div style="
-        background: #0f172a; 
-        padding: 40px; 
-        border-radius: 24px; 
-        border: 1px solid #334155;
-        box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        color: #e2e8f0; 
-        margin-top: 20px;
-    ">
+    <div style="background: #0f172a; padding: 40px; border-radius: 24px; border: 1px solid #334155; box-shadow: 0 20px 50px rgba(0,0,0,0.5); color: #e2e8f0; margin-top: 20px;">
         <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 25px; border-bottom: 1px solid #334155; padding-bottom: 20px;">
             <div style="background: #3b82f6; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px;">✨</div>
             <div>
@@ -944,13 +974,11 @@ if master_plan:
                 <span style="font-size: 14px; color: #94a3b8;">Generated for: {task}</span>
             </div>
         </div>
-        
         <div style="line-height: 1.8; font-size: 16px; color: #cbd5e1; font-family: 'Inter', sans-serif;">
             {master_plan}
         </div>
     </div>
     """, unsafe_allow_html=True)
-
     st.markdown("<br>", unsafe_allow_html=True)
     st.link_button("📲 Share on WhatsApp", f"https://wa.me/?text=Found a strategy for {task} on ClearHai!", use_container_width=True)
 
