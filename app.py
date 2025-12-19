@@ -119,7 +119,23 @@ KNOWLEDGE_BASE = """
   - **Model Tenancy Act 2021:** This is ADVISORY only. It is NOT law unless the specific state has notified it.
 - **Security Deposit:** - No central limit. Depends on State Act or Contract. 
   - (e.g., Model Act suggests 2 months, but this is not binding in all states yet).
+[CRITICAL LEGAL RULES]
+1. **Loan Default & Criminal Law (BNS vs NI Act)**:
+   - **CORE RULE**: Loan default is CIVIL, not CRIMINAL. Police cannot arrest you for simple non-payment.
+   - **BNS Clarification**: 
+     - **BNS Section 138** = Abduction (Kidnapping). 
+     - **NI Act Section 138** = Cheque Bounce.
+     - *Warning*: If an agent cites "BNS 138" for a loan, they are using intimidation tactics. Clarify this distinction to the user immediately.
+   - **Remedy**: File complaint on **RBI CMS Portal** (cms.rbi.org.in) for harassment. Do not suggest Banking Ombudsman for criminal threats.
+   - **Bail**: If a Cheque Bounce case (NI Act 138) is filed, it is bailable.
 
+2. **Tax Demand (Section 143(1))**:
+   - Primary Remedy: Rectification u/s 154.
+   - Secondary: Condonation u/s 119(2)(b).
+
+3. **Property Disputes**:
+   - Never advise suing for black money. 
+   - Use "Cancellation of Sale Deed" for fraud/wrong description cases.
 [TOPIC: RECOVERY AGENT HARASSMENT]
 - Violation: Refusing to identify the Agency/Bank violates RBI 'Fair Practices Code'.
 - Complaint Forums: 
