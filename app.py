@@ -4,6 +4,7 @@ import uuid
 from groq import Groq
 
 # --- 1. CONFIGURATION ---
+
 st.set_page_config(
     page_title="Pocket Lawyer",
     page_icon="⚖️",
@@ -136,6 +137,11 @@ KNOWLEDGE_BASE = """
 3. **Property Disputes**:
    - Never advise suing for black money. 
    - Use "Cancellation of Sale Deed" for fraud/wrong description cases.
+2. **Merchandise & IP Rights (F1/Fan Gear)**:
+   - **NO "Loopholes"**: Do NOT use the word "loophole". Use "Lawful Alternatives".
+   - **Passing Off**: Even without a registered trademark, if a design confuses a buyer into thinking it's "Official Merchandise", it is illegal Passing Off.
+   - **Parody/Fair Dealing**: Does NOT apply to commercial sale of goods (T-shirts/Posters). Commercial gain negates fair dealing defense in India.
+   - **Strategy**: Use generic art styles. Avoid official logos, sponsor names, and likeness rights (faces of drivers).
 [TOPIC: RECOVERY AGENT HARASSMENT]
 - Violation: Refusing to identify the Agency/Bank violates RBI 'Fair Practices Code'.
 - Complaint Forums: 
@@ -229,7 +235,7 @@ with col_lang:
         ["English", "Hindi", "Marathi"], 
         label_visibility="collapsed"
     )
-
+st.warning("⚠️ Disclaimer: I am an AI Legal Assistant, not a lawyer. Use these answers to understand your rights, but consult a real advocate before going to court.")
 current_id = st.session_state.current_chat_id
 current_history = st.session_state.chats[current_id]["messages"]
 
