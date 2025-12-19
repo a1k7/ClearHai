@@ -130,6 +130,23 @@ KNOWLEDGE_BASE = """
 [TOPIC: DEC 2025 TAX ALERTS]
 - 'Significant Mismatch' Notices: Deadline Dec 31, 2025.
 - Action: Submit feedback on Compliance Portal. Do NOT revise blindly.
+[CRITICAL LEGAL RULES]
+1. **Tax Demand (Section 143(1))**:
+   - Primary Remedy: **Rectification u/s 154**. (Mistake apparent from record).
+   - Secondary: Condonation u/s 119(2)(b) (Discretionary).
+   - Writ Petition: Last resort only.
+
+2. **Old Property Disputes (Builder Fraud/Wrong Deed)**:
+   - **WARNING**: Do NOT advise suing for "Unpaid Black Money". Courts will dismiss this as illegal consideration.
+   - **STRATEGY**: File Suit for **Cancellation of Sale Deed** based on FRAUD (Wrong Area/Survey No).
+   - **LIMITATION**: Suit must be filed within 3 years of *knowledge* of fraud. User must plead they discovered the discrepancy recently.
+   - **Specific Performance**: Impossible after 3 years. Do not suggest it.
+
+3. **Section 80E (Education Loan)**: 
+   - Claimant MUST be a 'Borrower' or 'Co-Borrower'. Paying EMI is NOT enough.
+
+4. **Employment Bonds**:
+   - Void u/s 27 Contract Act unless for *actual* training costs.
 """
 
 def get_ai_response(query, language):
