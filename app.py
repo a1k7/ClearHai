@@ -1,8 +1,141 @@
+import streamlit as st
+import os
+import uuid
+import urllib.parse
+from groq import Groq
+
+# --- 1. CONFIGURATION ---
+st.set_page_config(
+    page_title="Pocket Lawyer",
+    page_icon="⚖️",
+    layout="wide",
+    initial_sidebar_state="collapsed"
+)
+
+# --- 2. CSS STYLING ---
+st.markdown("""
+<style>
+    /* 1. Main Background */
+    .stApp {
+        background-color: #131314;
+        color: #E3E3E3;
+    }
+
+    /* 2. Sidebar */
+    section[data-testid="stSidebar"] {
+        background-color: #1E1F20;
+    }
+
+    /* 3. TEXT STYLES */
+    .welcome-text {
+        background: linear-gradient(90deg, #4b90ff, #ff5546);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin-bottom: 0px;
+    }
+    
+    .sub-text {
+        color: #5f6368;
+        font-size: 1.5rem;
+        font-weight: 500;
+        margin-top: -10px;
+        margin-bottom: 40px;
+    }
+
+    .gemini-header {
+        background: linear-gradient(90deg, #4b90ff, #ff5546);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+
+    /* 4. Suggestion Cards */
+    .stButton button {
+        background-color: #1E1F20 !important;
+        border: 1px solid #333 !important;
+        color: #E3E3E3 !important;
+        border-radius: 12px !important;
+        padding: 20px !important;
+        text-align: left !important;
+        height: 100px !important;
+    }
+    .stButton button:hover {
+        background-color: #2D2E30 !important;
+        border-color: #4b90ff !important;
+    }
+
+    /* 5. Chat Input (Floating) */
+    .stChatInput {
+        position: fixed;
+        bottom: 30px;
+        width: 70%;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+    }
+    
+    .stChatInput > div > div {
+        background-color: #1E1F20 !important;
+        border: none !important;
+        border-radius: 25px;
+        color: white !important;
+    }
+
+    /* 6. WhatsApp Share Button Style */
+    .whatsapp-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #25D366;
+        color: white !important;
+        padding: 8px 16px;
+        border-radius: 20px;
+        text-decoration: none;
+        font-weight: 600;
+        margin-top: 10px;
+        border: none;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        transition: transform 0.2s;
+    }
+    .whatsapp-btn:hover {
+        transform: scale(1.05);
+        background-color: #128C7E;
+        color: white !important;
+    }
+
+    /* 7. Visibility Controls */
+    [data-testid="stToolbar"], [data-testid="stDecoration"], footer {display: none !important;}
+    [data-testid="stHeader"] {background: transparent !important; visibility: visible !important;}
+    
+    [data-testid="stSidebarCollapsedControl"] {
+        color: white !important;
+        background-color: rgba(255,255,255,0.1);
+        border-radius: 5px;
+        display: block !important;
+        visibility: visible !important;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# --- 3. LOGIC ENGINE ---
+client = Groq(api_key=os.environ.get("GROQ_API_KEY") or st.secrets["GROQ_API_KEY"])
+
+# >>> UPDATED KNOWLEDGE BASE <<<
 KNOWLEDGE_BASE = """
 [ROLE]
 - You are 'Clear Hai', an expert Indian Legal Consultant.
 - JURISDICTION: INDIA ONLY.
-
+- You are 'Pocket Lawyer', India's most aggressive and strategic AI Legal Assistant.
+- Your goal is NOT just to inform, but to PROTECT and ATTACK legally.
+- JURISDICTION: INDIA ONLY (Cite BNS 2023, RBI Circulars, IT Act).
+[INSTRUCTION: HOW TO ANSWER]
+- Do NOT give generic advice ("File a complaint").
+- GIVE ACTIONABLE TOOLS: Templates, Step-by-Step Timelines, and Exact Legal Sections.
+- Structure your answer with bold headers.
 [TOPIC: RENT AGREEMENTS & LEASES]
 - **Core Myth Buster:** There is NO legal rule mandating an 11-month period.
   - *Reality:* People choose 11 months to avoid "Mandatory Registration" under Section 17 of the Registration Act, 1908 (required only for leases of 12 months or more).
@@ -24,7 +157,8 @@ KNOWLEDGE_BASE = """
      - *Warning*: If an agent cites "BNS 138" for a loan, they are using intimidation tactics. Clarify this distinction to the user immediately.
    - **Remedy**: File complaint on **RBI CMS Portal** (cms.rbi.org.in) for harassment. Do not suggest Banking Ombudsman for criminal threats.
    - **Bail**: If a Cheque Bounce case (NI Act 138) is filed, it is bailable.
-
+4. **Tone**:
+   - Empathetic but fierce. "Don't panic, here is your weapon."
 2. **Tax Demand (Section 143(1))**:
    - Primary Remedy: Rectification u/s 154.
    - Secondary: Condonation u/s 119(2)(b).
@@ -43,7 +177,13 @@ KNOWLEDGE_BASE = """
   1. RBI CMS Portal (cms.rbi.org.in).
   2. TRAI DND (1909).
   (Note: National Consumer Helpline is advisory only).
-
+1. **Inheritance (Son's Claim)**:
+   - **Hindu Law (Hindu Succession Act, 1956)**: Son is a **Class I Heir**.
+   - **Ancestral Property**: Son has a birthright (Coparcener). Father CANNOT exclude son via Will.
+   - **Self-Acquired Property**: Father has 100% control. If Father leaves a valid **Will** giving property to someone else, Son gets NOTHING. Son only inherits if Father dies "Intestate" (without a Will).
+   - **Daughters**: Have equal rights as sons (2005 Amendment).
+   - **Muslim Law**: Son is a residuary/sharer. Testamentary succession (Will) is limited to 1/3rd of property.
+   - **Christian/Parsi**: Governed by Indian Succession Act, 1925.
 [TOPIC: DEC 2025 TAX ALERTS]
 - 'Significant Mismatch' Notices: Deadline Dec 31, 2025.
 - Action: Submit feedback on Compliance Portal. Do NOT revise blindly.
@@ -64,4 +204,166 @@ KNOWLEDGE_BASE = """
 
 4. **Employment Bonds**:
    - Void u/s 27 Contract Act unless for *actual* training costs.
+[FORMATTING INSTRUCTIONS]
+- Use clean Markdown headers (###).
+- Do NOT use emojis in the legal text.
+- Provide a clear "Action Plan".
 """
+
+def get_ai_response(query, language):
+    lang_instruction = f"OUTPUT LANGUAGE: {language}. Answer ONLY in {language}."
+    if language == "Hindi" or language == "Marathi":
+        lang_instruction += " Use Devanagari script."
+    
+    # >>> UPDATED: PROFESSIONAL STRUCTURE PROMPT <<<
+    structure_prompt = """
+    Format the answer strictly as follows:
+    1. **Legal Assessment**: Direct statement on legality.
+    2. **Procedural Steps**: Immediate actions (e.g., Recording evidence, Blocking).
+    3. **Formal Notice Template**: A professional text draft to send to the opposing party.
+    4. **Relevant Statutes**: List specific Sections (BNS, RBI Guidelines, Contract Act).
+    5. **Escalation Protocol**: Official grievance channels (Ombudsman, Police).
+    """
+
+    try:
+        completion = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[
+                {"role": "system", "content": f"{KNOWLEDGE_BASE}\n{lang_instruction}\n{structure_prompt}"}, 
+                {"role": "user", "content": query}
+            ],
+            temperature=0.3
+        )
+        return completion.choices[0].message.content
+    except:
+        return "⚠️ Connection Error. Please try again."
+
+def generate_title(text):
+    try:
+        completion = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[{"role": "user", "content": f"Summarize in 3 English words: {text}"}]
+        )
+        return completion.choices[0].message.content.strip().replace('"','')
+    except:
+        return "New Chat"
+
+# --- NEW FUNCTION: GENERATE WHATSAPP LINK ---
+def get_whatsapp_link(response_text):
+    # Prepare the text for sharing
+    share_text = f"⚖️ *Legal Insight from Pocket Lawyer:*\n\n{response_text}\n\n⚡ *Generated by Pocket Lawyer (Clear Hai)*\nTry it free: [Insert_Your_App_Link_Here]"
+    encoded_text = urllib.parse.quote(share_text)
+    return f"https://wa.me/?text={encoded_text}"
+
+# --- 4. SESSION ---
+if "chats" not in st.session_state:
+    new_id = str(uuid.uuid4())
+    st.session_state.chats = {new_id: {"title": "New Chat", "messages": []}}
+    st.session_state.current_chat_id = new_id
+
+def create_chat():
+    new_id = str(uuid.uuid4())
+    st.session_state.chats[new_id] = {"title": "New Chat", "messages": []}
+    st.session_state.current_chat_id = new_id
+
+# --- 5. SIDEBAR ---
+with st.sidebar:
+    st.markdown("### ≡ &nbsp; Pocket Lawyer", unsafe_allow_html=True)
+    if st.button("➕ New chat", use_container_width=True, type="primary"):
+        create_chat()
+        st.rerun()
+    st.markdown("---")
+    st.caption("Recents")
+    chat_ids = list(st.session_state.chats.keys())
+    for c_id in reversed(chat_ids):
+        chat_data = st.session_state.chats[c_id]
+        if st.button(f"💬 {chat_data['title']}", key=c_id, use_container_width=True):
+            st.session_state.current_chat_id = c_id
+            st.rerun()
+
+# --- 6. MAIN DISPLAY ---
+
+# TOP BAR
+col_spacer, col_lang = st.columns([6, 1])
+with col_lang:
+    selected_language = st.selectbox(
+        "Language", 
+        ["English", "Hindi", "Marathi"], 
+        label_visibility="collapsed"
+    )
+
+# DISCLAIMER
+st.warning("⚠️ Disclaimer: I am an AI Legal Assistant, not a lawyer. Use these answers to understand your rights, but consult a real advocate before going to court.")
+
+current_id = st.session_state.current_chat_id
+current_history = st.session_state.chats[current_id]["messages"]
+
+# A. WELCOME SCREEN
+if not current_history:
+    st.markdown('<br>', unsafe_allow_html=True)
+    st.markdown(f'<h1 class="welcome-text">Hello, Citizen.</h1>', unsafe_allow_html=True)
+    st.markdown(f'<h3 class="sub-text">I can help you in {selected_language}.</h3>', unsafe_allow_html=True)
+    
+    col1, col2 = st.columns(2)
+    prompt_to_run = None
+    
+    with col1:
+        if st.button("📢  **Got a Tax Notice?**\n\nHandle 'Significant Mismatch' alerts.", use_container_width=True):
+            prompt_to_run = "I received a 'Significant Mismatch' tax notice. What do I do?"
+        if st.button("🎓  **Education Loan (80E)**\n\nCan my father claim the deduction?", use_container_width=True):
+            prompt_to_run = "Can my father claim Section 80E deduction for my education loan?"
+            
+    with col2:
+        if st.button("🤬  **Recovery Harassment**\n\nAgents citing 'BNS 138' or police cases.", use_container_width=True):
+            prompt_to_run = "Agents are threatening me with BNS 138 and arrest for loan default. Is this legal?"
+        if st.button("🏎️  **Selling Fan Art?**\n\nCopyright rules for F1/Movies merchandise.", use_container_width=True):
+            prompt_to_run = "I want to sell T-shirts with F1 driver designs. What are the copyright risks?"
+
+    if prompt_to_run:
+        st.session_state.chats[current_id]["messages"].append({"role": "user", "content": prompt_to_run})
+        with st.chat_message("user"):
+            st.markdown(prompt_to_run)
+        with st.chat_message("assistant"):
+            with st.spinner(f"Checking Legal Rules in {selected_language}..."):
+                response = get_ai_response(prompt_to_run, selected_language)
+                st.markdown(response)
+                # >>> NEW: SHARE BUTTON <<<
+                wa_link = get_whatsapp_link(response)
+                st.markdown(f'<a href="{wa_link}" target="_blank" class="whatsapp-btn">💬 Share on WhatsApp</a>', unsafe_allow_html=True)
+                
+        st.session_state.chats[current_id]["messages"].append({"role": "assistant", "content": response})
+        st.session_state.chats[current_id]["title"] = generate_title(prompt_to_run)
+        st.rerun()
+
+# B. CHAT HISTORY
+else:
+    st.markdown('<div class="gemini-header">Pocket Lawyer</div>', unsafe_allow_html=True)
+    st.caption("Powered by Clear Hai Logic Engine")
+    
+    for msg in current_history:
+        with st.chat_message(msg["role"]):
+            st.markdown(msg["content"])
+            # >>> NEW: ADD SHARE BUTTON TO ASSISTANT MESSAGES <<<
+            if msg["role"] == "assistant":
+                wa_link = get_whatsapp_link(msg["content"])
+                st.markdown(f'<a href="{wa_link}" target="_blank" class="whatsapp-btn">💬 Share on WhatsApp</a>', unsafe_allow_html=True)
+
+# C. INPUT BAR
+if prompt := st.chat_input(f"Ask in {selected_language}..."):
+    st.session_state.chats[current_id]["messages"].append({"role": "user", "content": prompt})
+    with st.chat_message("user"):
+        st.markdown(prompt)
+
+    with st.chat_message("assistant"):
+        with st.spinner(f"Thinking in {selected_language}..."):
+            response = get_ai_response(prompt, selected_language)
+            st.markdown(response)
+            # >>> NEW: SHARE BUTTON FOR NEW RESPONSES <<<
+            wa_link = get_whatsapp_link(response)
+            st.markdown(f'<a href="{wa_link}" target="_blank" class="whatsapp-btn">💬 Share on WhatsApp</a>', unsafe_allow_html=True)
+    
+    st.session_state.chats[current_id]["messages"].append({"role": "assistant", "content": response})
+    
+    if len(st.session_state.chats[current_id]["messages"]) == 2:
+        st.session_state.chats[current_id]["title"] = generate_title(prompt)
+        st.rerun()
