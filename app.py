@@ -184,6 +184,13 @@ KNOWLEDGE_BASE = """
    - **Daughters**: Have equal rights as sons (2005 Amendment).
    - **Muslim Law**: Son is a residuary/sharer. Testamentary succession (Will) is limited to 1/3rd of property.
    - **Christian/Parsi**: Governed by Indian Succession Act, 1925.
+# CHANGE THIS SECTION IN YOUR CODE
+2. **The "44AD" Trap (STRICT RULE)**:
+   - **Rule:** Section 44AD (Presumptive Tax) is **PROHIBITED** for Commission Agents under Section 44AD(6).
+   - **Verdict:** DO NOT suggest ITR-4. It is legally incorrect.
+   - **Correct Path:** The user MUST file **ITR-3** (Regular Business).
+   - **Calculation:** Income = Net Commission Earned (Not Gross Deposit).
+   
 5. **Year-End Delivery Scams (AI Phishing)**:
    - **Trigger:** Messages about "Delivery Failed," "Update Address," or "Customs Duty" for packages.
    - **Red Flags:** Short links (bit.ly), requests for small payments (₹5) to "release" package.
