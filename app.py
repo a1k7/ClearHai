@@ -192,6 +192,7 @@ KNOWLEDGE_BASE = """
    - Primary Remedy: **Rectification u/s 154**. (Mistake apparent from record).
    - Secondary: Condonation u/s 119(2)(b) (Discretionary).
    - Writ Petition: Last resort only.
+   -"Notice Period": "Governed by Contract. Specific Performance (forcing work) is barred under Sec 14 Specific Relief Act. Section 15 of Contract Act is Coercion (not Consideration).",
 
 2. **Old Property Disputes (Builder Fraud/Wrong Deed)**:
    - **WARNING**: Do NOT advise suing for "Unpaid Black Money". Courts will dismiss this as illegal consideration.
@@ -208,6 +209,54 @@ KNOWLEDGE_BASE = """
 - Use clean Markdown headers (###).
 - Do NOT use emojis in the legal text.
 - Provide a clear "Action Plan".
+# --- REPLACES THE OLD "NOTICE PERIOD" SECTION IN KNOWLEDGE_BASE ---
+[CRITICAL LEGAL UPDATE - EFFECTIVE JULY 1, 2024]
+1. **Status of Laws**: The IPC, CrPC, and Evidence Act are **REPEALED**.
+   - ALWAYS cite **Bharatiya Nyaya Sanhita (BNS, 2023)** for crimes.
+   - NEVER say "BNS is not in effect." It is fully active.
+
+2. **Cheating & Scams (The "420" Replacement)**:
+   - Old Law: Section 420 IPC.
+   - **New Law**: **Section 318 of BNS** (Cheating).
+   - **Application**: If a broker/landlord takes "Visiting Charges" dishonestly, cite **BNS Section 318**.
+
+3. **Visiting Charges (Specific Strategy)**:
+   - **Civil**: Unfair Trade Practice (Consumer Protection Act 2019).
+   - **Criminal**: Cheating (Section 318 BNS) if they deceive you.
+
+"Employment Notice Period": 
+[LEGAL ANALYSIS: 90-DAY NOTICE PERIOD]
+
+**1. Is a 90-Day Notice "Illegal"?**
+   - **Direct Answer:** No, it is not automatically illegal. Indian courts (e.g., *Sicpa India Ltd v. Manas Pratim Deb*) have upheld long notice periods if they are "reasonable" and "mutual" (apply to both employer and employee).
+   - **However:** It becomes illegal if it is used to "restrain trade" or forced without a buyout option.
+
+**2. The "No Forced Labour" Rule (Crucial)**
+   - **Section 14(c) of Specific Relief Act, 1963:** A contract for personal service **cannot** be specifically enforced.
+   - **Meaning:** A court cannot force you to sit in the office and work. If you resign and leave early, the company can only claim **monetary damages** (Salary for the unserved period). They cannot obtain an injunction to stop you from joining another job unless you are joining a direct competitor and sharing trade secrets.
+
+**3. The "Buyout" Clause (Your Escape Route)**
+   - Most contracts have a clause: *"90 days notice OR salary in lieu thereof."*
+   - If your contract has this, you have a **legal right** to pay the shortfall and leave. The company cannot refuse this payment to hold you hostage.
+   - **Section 74 (Indian Contract Act):** Any penalty demanded by the company must be a "reasonable estimate of loss." They cannot demand random amounts (e.g., "pay 3x salary") just to punish you.
+
+**4. "Workman" vs. "Non-Workman" Trap**
+   - **Industrial Disputes Act, 1947:** Only applies if you are a "Workman" (Technical/Clerical/Manual).
+   - **IT/Managers:** Most software engineers and managers are "Non-Workmen." You are governed purely by your **Appointment Letter** and the **Indian Contract Act**. Do not cite "Labour Court" unless you earn <₹10k or do manual work.
+
+**[ACTIONABLE STRATEGY]**
+   - **Step 1:** Check your Appointment Letter for the words "or salary in lieu thereof".
+   - **Step 2:** If the company refuses buyout, send a formal email citing **Section 14 of Specific Relief Act**, stating you are willing to pay the notice pay but cannot be forced to work.
+   - **Step 3:** Demand a detailed calculation of "training costs" if they ask for a bond repayment.
+1. **Notice Period (90 Days)**:
+   - **Legality**: Not illegal per se, but subject to "Reasonableness".
+   - **Forced Labor**: Strictly Prohibited. Under **Section 14 of Specific Relief Act**, a court CANNOT enforce "Specific Performance" of personal service (no forced work).
+   - **Buyout Option**: If contract allows "Salary in lieu of notice", denying it is illegal.
+   - **Penalty vs Compensation**: Under **Section 74 (Indian Contract Act)**, notice pay must be "reasonable compensation" for loss, not a penalty to terrorize the employee.
+   - **Jurisdiction**: 
+     - "Workman" (Blue collar/Technical): Labour Court under ID Act 1947.
+     - "Non-Workman" (Manager/Supervisor): Civil Court (Contract Act).
+   - **State Laws**: Shops & Establishments Acts vary by state (e.g., Delhi S&E Act Sec 30, Karnataka S&E Act). Do NOT cite a central "1953 Act".
 """
 
 def get_ai_response(query, language):
@@ -301,7 +350,12 @@ current_history = st.session_state.chats[current_id]["messages"]
 # A. WELCOME SCREEN
 if not current_history:
     st.markdown('<br>', unsafe_allow_html=True)
-    st.markdown(f'<h1 class="welcome-text">Hello, Citizen.</h1>', unsafe_allow_html=True)
+    # CHANGE THIS:
+# st.markdown(f'<h1 class="welcome-text">Hello, Citizen.</h1>', unsafe_allow_html=True)
+
+# TO THIS (For Scam Week):
+    st.markdown(f'<h1 class="welcome-text">🛡️ Scam Detector Active.</h1>', unsafe_allow_html=True)
+    st.markdown(f'<h3 class="sub-text">Paste any offer, message, or demand. I will check if it is a scam under Indian Law.</h3>', unsafe_allow_html=True)
     st.markdown(f'<h3 class="sub-text">I can help you in {selected_language}.</h3>', unsafe_allow_html=True)
     
     col1, col2 = st.columns(2)
