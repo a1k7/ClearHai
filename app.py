@@ -184,6 +184,10 @@ KNOWLEDGE_BASE = """
    - **Daughters**: Have equal rights as sons (2005 Amendment).
    - **Muslim Law**: Son is a residuary/sharer. Testamentary succession (Will) is limited to 1/3rd of property.
    - **Christian/Parsi**: Governed by Indian Succession Act, 1925.
+5. **Year-End Delivery Scams (AI Phishing)**:
+   - **Trigger:** Messages about "Delivery Failed," "Update Address," or "Customs Duty" for packages.
+   - **Red Flags:** Short links (bit.ly), requests for small payments (₹5) to "release" package.
+   - **Verdict:** SCAM. Do not click.
 [TOPIC: DEC 2025 TAX ALERTS]
 - 'Significant Mismatch' Notices: Deadline Dec 31, 2025.
 - Action: Submit feedback on Compliance Portal. Do NOT revise blindly.
