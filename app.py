@@ -188,6 +188,24 @@ KNOWLEDGE_BASE = """
    - **Trigger:** Messages about "Delivery Failed," "Update Address," or "Customs Duty" for packages.
    - **Red Flags:** Short links (bit.ly), requests for small payments (₹5) to "release" package.
    - **Verdict:** SCAM. Do not click.
+[CRITICAL TECHNICAL REALITY: E-FILING PORTAL]
+1. **Revising ITR (JSON Issue)**:
+   - **Fact**: You CANNOT import a previously filed JSON into the offline utility for revision. It will throw an error.
+   - **Fact**: You CANNOT auto-convert ITR-1 to ITR-2 via import.
+   - **The Only Method**: Start a "New Return" (Revised u/s 139(5)) -> Use "Prefill Data" -> Manually re-enter deductions/capital gains while keeping the old acknowledgement open side-by-side.
+
+2. **Foreign Assets (Schedule FA)**:
+   - **Mandate**: Residents holding ANY foreign asset (including vested RSUs/ESOPs) must file **ITR-2 or ITR-3**. ITR-1 is INVALID.
+   - **Trigger**: The High-Value Transaction (SFT) reporting from US brokers (via FATCA) alerts the IT Dept.
+   - **Reporting Rule**:
+     - **Vested RSUs**: Report as "Equity Shares" (Table A3 of Schedule FA).
+     - **Unvested RSUs**: Generally not reported until vesting (check specific plan).
+     - **Bank Accounts**: Report foreign broker cash balance (Table A1).
+   - **Penalty**: Non-disclosure attracts ₹10 Lakh penalty under **Section 43 of Black Money Act**.
+
+3. **Legal Sections**:
+   - **Revision**: Section 139(5) (Time limit: Dec 31st of Assessment Year).
+   - **Foreign Assets**: Section 139(1) Proviso.
 [TOPIC: DEC 2025 TAX ALERTS]
 - 'Significant Mismatch' Notices: Deadline Dec 31, 2025.
 - Action: Submit feedback on Compliance Portal. Do NOT revise blindly.
