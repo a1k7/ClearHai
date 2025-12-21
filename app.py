@@ -455,7 +455,7 @@ def get_ai_response(query, language):
         system_role = "You are 'Pocket Lawyer', an Expert Indian Lawyer."
     try:
         completion = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
+            model="llama-3.1-8b-instant",
             messages=[
                 {"role": "system", "content": f"{KNOWLEDGE_BASE}\n{lang_instruction}\n[ROLE]: {system_role}\n{selected_structure}"}, 
                 {"role": "user", "content": query}
@@ -463,13 +463,14 @@ def get_ai_response(query, language):
             temperature=0.3
         )
         return completion.choices[0].message.content
-    except:
-        return "⚠️ Connection Error. Please try again."
+    except Exception as e:
+        # 🔴 DEBUG FIX: Show the REAL error message
+        return f"⚠️ Error: {str(e)}"
 
 def generate_title(text):
     try:
         completion = client.chat.completions.create(
-            model="llama-3.3-70b-versatile",
+            model="llama-3.1-8b-instant",
             messages=[{"role": "user", "content": f"Summarize in 3 English words: {text}"}]
         )
         return completion.choices[0].message.content.strip().replace('"','')
