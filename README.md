@@ -34,11 +34,4 @@ We cover **60+ unique government processes** across 10+ categories:
 
 # 🚀 How to Run "Clear Hai?" (With AI)
 
-Since this app uses a powerful AI Engine (Ollama), it runs on your own computer!
-
-### 🟢 1-Click Run (Windows)
-1. **[Download this Repository](https://github.com/a1k7/ClearHai/archive/refs/heads/main.zip)** and Unzip it.
-2. Double-click the file named **`start_app.bat`**.
-3. The script will set up everything and open the app in your browser!
-
-*(Note: You must have Python and Ollama installed. The script will guide you if they are missing.)*
+Here's the Link: https://A1u8LG.short.gy/
