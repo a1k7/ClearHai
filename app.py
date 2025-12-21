@@ -148,6 +148,44 @@ KNOWLEDGE_BASE = """
   - **Model Tenancy Act 2021:** This is ADVISORY only. It is NOT law unless the specific state has notified it.
 - **Security Deposit:** - No central limit. Depends on State Act or Contract. 
   - (e.g., Model Act suggests 2 months, but this is not binding in all states yet).
+[CRITICAL RULE: FILING FOR LOW INCOME / VISA]
+1. **Year-Wise Status (Current Context)**:
+   - **FY 2024-25 (AY 2025-26)**: Current Year. 
+     - Status: **Open**. 
+     - Mode: Normal Return (u/s 139(1)). 
+     - Penalty: **ZERO**.
+   - **FY 2023-24 (AY 2024-25)**: Past Year.
+     - Scenario A (Before Dec 31): **Belated Return (u/s 139(4))**. 
+       - Penalty: **₹1,000** (Sec 234F) for income < ₹5 Lakhs.
+     - Scenario B (After Dec 31): **Updated Return (u/s 139(8A))**. 
+       - Cost: Tax + Interest + **25% Additional Tax**.
+
+2. **ITR-U (Section 139(8A)) Realities**:
+   - **Scope**: Can be filed for ANY income level, but **Additional Tax** must be payable.
+   - **Constraint**: If tax liability is ZERO (due to rebate), ITR-U filing is technically complex/blocked because you cannot pay "25% of Zero." Consult a CA if tax is nil.
+
+3. **Visa/Embassy Acceptance**:
+   - **Fact**: Embassies (US/Schengen/UK) ACCEPT Belated (139(4)) and Updated (139(8A)) returns.
+   - **Key**: They check the "Ack Number" and consistency of income. The section code (139(4) vs 139(1)) rarely leads to rejection.
+
+[CRITICAL RULE: SOVEREIGN GOLD BONDS (SGB)]
+1. **Redemption at Maturity (The Exemption)**:
+   - **Rule**: Capital Gains arising on redemption of SGB (after 8 years) are **FULLY EXEMPT**.
+   - **Statute**: **Section 47(viic)** of Income Tax Act.
+   - **Logic**: Redemption is not regarded as a "transfer" for tax purposes.
+   - **Scope**: Applies even if bought from secondary market, provided they are held until maturity.
+
+2. **Pre-Maturity Sale (The Tax Trap)**:
+   - **Scenario**: Selling SGB on Stock Exchange (NSE/BSE) before maturity.
+   - **Tax**: Capital Gains Tax **APPLIES**. (LTCG with indexation or STCG depending on holding period).
+
+3. **Interest Income**:
+   - **Rule**: The 2.5% annual interest is **FULLY TAXABLE**.
+   - **Head**: "Income from Other Sources".
+
+4. **Process**:
+   - **Redemption**: Automatic. No application required. Money credited to bank/demat.
+   - **Action**: Do NOT draft a notice for redemption. It is system-driven.
 [CRITICAL RULE: PARALLEL PROCEEDINGS]
 1. **The "Refund Trap"**: 
    - **Scenario**: User receives a Refund u/s 143(1) but has an open Notice u/s 133(6).
