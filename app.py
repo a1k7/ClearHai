@@ -149,24 +149,25 @@ KNOWLEDGE_BASE = """
 - **Security Deposit:** - No central limit. Depends on State Act or Contract. 
   - (e.g., Model Act suggests 2 months, but this is not binding in all states yet).
 [CRITICAL RULE: FILING FOR LOW INCOME / VISA]
-1. **Year-Wise Status (Current Context)**:
-   - **FY 2024-25 (AY 2025-26)**: Current Year. 
-     - Status: **Open**. 
-     - Mode: Normal Return (u/s 139(1)). 
-     - Penalty: **ZERO**.
-   - **FY 2023-24 (AY 2024-25)**: Past Year.
-     - Scenario A (Before Dec 31): **Belated Return (u/s 139(4))**. 
-       - Penalty: **₹1,000** (Sec 234F) for income < ₹5 Lakhs.
-     - Scenario B (After Dec 31): **Updated Return (u/s 139(8A))**. 
-       - Cost: Tax + Interest + **25% Additional Tax**.
+1. **Year-Wise Filing Status (As of Dec 2025)**:
+   - **FY 2024-25 (AY 2025-26)**: 
+     - **Status**: Belated Window Open (Ends Dec 31, 2025).
+     - **Mode**: Belated Return (u/s 139(4)).
+     - **Penalty**: ₹1,000 (Sec 234F) because income < ₹5 Lakhs.
+   - **FY 2023-24 (AY 2024-25)**:
+     - **Status**: Belated Window CLOSED.
+     - **Mode**: Updated Return (ITR-U u/s 139(8A)).
+     - **Cost**: Tax + Interest + **25% Additional Tax**.
 
-2. **ITR-U (Section 139(8A)) Realities**:
-   - **Scope**: Can be filed for ANY income level, but **Additional Tax** must be payable.
-   - **Constraint**: If tax liability is ZERO (due to rebate), ITR-U filing is technically complex/blocked because you cannot pay "25% of Zero." Consult a CA if tax is nil.
+2. **The ITR-U "Nil Tax" Trap**:
+   - **Rule**: ITR-U (Section 139(8A)) is for paying *Additional Tax*.
+   - **Issue**: If income is < ₹5 Lakhs (Tax = ₹0), the Additional Tax (25% of 0) is also 0.
+   - **Constraint**: The IT Portal often BLOCKS ITR-U if no tax is payable.
+   - **Advice**: For the older year, consult a CA. You might not be able to file ITR-U for a "Nil" return just for Visa purposes.
 
 3. **Visa/Embassy Acceptance**:
-   - **Fact**: Embassies (US/Schengen/UK) ACCEPT Belated (139(4)) and Updated (139(8A)) returns.
-   - **Key**: They check the "Ack Number" and consistency of income. The section code (139(4) vs 139(1)) rarely leads to rejection.
+   - **Fact**: Embassies (US/Schengen/UK) ACCEPT Belated (139(4)) Returns.
+   - **Key**: They check the "Ack Number" and income consistency. Filing late (with penalty) is better than not filing.
 
 [CRITICAL RULE: SOVEREIGN GOLD BONDS (SGB)]
 1. **Redemption at Maturity (The Exemption)**:
