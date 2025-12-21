@@ -3,6 +3,42 @@ import os
 import uuid
 import urllib.parse
 from groq import Groq
+import datetime
+
+def get_tax_filing_context():
+    """
+    Calculates the tax filing status dynamically based on today's date.
+    Works for any year.
+    """
+    today = datetime.date.today()
+    current_year = today.year
+    
+    # Context: We are assuming the user wants to file for the IMMEDIATE PAST Financial Year (FY)
+    # Example: In Dec 2025, we are filing for FY 2024-25 (AY 2025-26)
+    
+    # If today is Jan-Mar, we are still in the previous calendar year's cycle logic roughly
+    # But let's simplify for standard filing cycle (April to March)
+    
+    # Target Assessment Year (AY) is usually Current Year + 1 (if currently in FY)
+    # But usually users ask about the COMPLETED FY.
+    # Let's target the "Relevant AY" which ends on March 31 of next year.
+    
+    # Logic for the MOST RECENT completed FY:
+    relevant_ay_end_year = current_year + 1 if today.month > 3 else current_year
+    deadline_normal = datetime.date(current_year, 7, 31)
+    deadline_belated = datetime.date(current_year, 12, 31)
+    
+    status_msg = ""
+    
+    # Check Status for IMMEDIATE PAST YEAR
+    if today <= deadline_normal:
+        status_msg = f"Current Status: **Normal Filing Window** (Ends July 31, {current_year}). No Penalty."
+    elif today <= deadline_belated:
+        status_msg = f"Current Status: **Belated Filing Window** (Ends Dec 31, {current_year}). Penalty: ₹1,000 (if Income < ₹5L) or ₹5,000."
+    else:
+        status_msg = f"Current Status: **Window Closed**. Only ITR-U (Updated Return) is possible."
+        
+    return f"Today is {today.strftime('%B %d, %Y')}. {status_msg}"
 
 # --- 1. CONFIGURATION ---
 st.set_page_config(
@@ -429,7 +465,6 @@ def get_ai_response(query, language):
         return completion.choices[0].message.content
     except:
         return "⚠️ Connection Error. Please try again."
-
 
 def generate_title(text):
     try:
