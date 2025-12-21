@@ -148,26 +148,25 @@ KNOWLEDGE_BASE = """
   - **Model Tenancy Act 2021:** This is ADVISORY only. It is NOT law unless the specific state has notified it.
 - **Security Deposit:** - No central limit. Depends on State Act or Contract. 
   - (e.g., Model Act suggests 2 months, but this is not binding in all states yet).
-[CRITICAL RULE: FILING FOR LOW INCOME / VISA]
-1. **Year-Wise Filing Status (As of Dec 2025)**:
-   - **FY 2024-25 (AY 2025-26)**: 
-     - **Status**: Belated Window Open (Ends Dec 31, 2025).
-     - **Mode**: Belated Return (u/s 139(4)).
-     - **Penalty**: ₹1,000 (Sec 234F) because income < ₹5 Lakhs.
-   - **FY 2023-24 (AY 2024-25)**:
-     - **Status**: Belated Window CLOSED.
-     - **Mode**: Updated Return (ITR-U u/s 139(8A)).
-     - **Cost**: Tax + Interest + **25% Additional Tax**.
+[CRITICAL TIMELINE: DEC 21, 2025 CONTEXT]
+1. **FY 2024-25 (AY 2025-26) - The "Urgent" Year**:
+   - **Context**: Due Date (July 31, 2025) has passed.
+   - **Current Status**: **Belated Return Window** (Section 139(4)).
+   - **Deadline**: **December 31, 2025** (ENDS IN 10 DAYS).
+   - **Penalty**: ₹1,000 (Section 234F) for income < ₹5 Lakhs.
+   - **Action**: File IMMEDIATELY to avoid the ITR-U trap later.
 
-2. **The ITR-U "Nil Tax" Trap**:
-   - **Rule**: ITR-U (Section 139(8A)) is for paying *Additional Tax*.
-   - **Issue**: If income is < ₹5 Lakhs (Tax = ₹0), the Additional Tax (25% of 0) is also 0.
-   - **Constraint**: The IT Portal often BLOCKS ITR-U if no tax is payable.
-   - **Advice**: For the older year, consult a CA. You might not be able to file ITR-U for a "Nil" return just for Visa purposes.
+2. **FY 2023-24 (AY 2024-25) - The "Missed" Year**:
+   - **Context**: Belated window closed on Dec 31, 2024.
+   - **Current Status**: **Updated Return (ITR-U)** (Section 139(8A)).
+   - **Rule**: Can be filed even if NO original return was filed.
+   - **Cost**: Tax + Interest + **25% Additional Tax**.
+   - **The "Low Income" Trap**: Legally, ITR-U is allowed for income < ₹5 Lakhs. However, practically, if your "Additional Tax Payable" is Zero, the utility may block filing. You typically need to show some small tax liability to file ITR-U validly.
 
 3. **Visa/Embassy Acceptance**:
-   - **Fact**: Embassies (US/Schengen/UK) ACCEPT Belated (139(4)) Returns.
-   - **Key**: They check the "Ack Number" and income consistency. Filing late (with penalty) is better than not filing.
+   - **Fact**: Embassies (US/Schengen/UK) ACCEPT "Belated Returns" (139(4)) and "Updated Returns" (139(8A)).
+   - **Key**: They look for the **Acknowledgement Number** and income consistency, not the filing section.
+
 
 [CRITICAL RULE: SOVEREIGN GOLD BONDS (SGB)]
 1. **Redemption at Maturity (The Exemption)**:
