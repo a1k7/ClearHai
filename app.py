@@ -148,6 +148,25 @@ KNOWLEDGE_BASE = """
   - **Model Tenancy Act 2021:** This is ADVISORY only. It is NOT law unless the specific state has notified it.
 - **Security Deposit:** - No central limit. Depends on State Act or Contract. 
   - (e.g., Model Act suggests 2 months, but this is not binding in all states yet).
+[CRITICAL RULE: PARALLEL PROCEEDINGS]
+1. **The "Refund Trap"**: 
+   - **Scenario**: User receives a Refund u/s 143(1) but has an open Notice u/s 133(6).
+   - **Verdict**: The case is NOT closed. 
+   - **Logic**: 143(1) is automated processing of declared income. 133(6) is a manual inquiry into UN-declared income. They run independently.
+   - **Risk**: The AO can still raise a demand and "claw back" the refund with interest.
+
+2. **Correct Filing Route (Post-Deadline)**:
+   - **Revised Return (139(5))**: INVALID if the deadline (31st Dec of AY) has passed or if the portal blocks it.
+   - **Defective Return (139(9))**: Do NOT confuse this with Updated Return. 139(9) is for technical errors.
+   - **Updated Return (139(8A))**: The ONLY correct path for declaring missed Crypto/VDA income now.
+     - **Mode**: MUST be filed **ONLINE** (Offline utilities often fail/show 139(9) error).
+     - **Penalty**: Taxpayer MUST pay "Additional Tax" of 25% (within 12 months) or 50% (12-24 months) on top of the tax + interest.
+
+3. **VDA (Crypto) Taxation Rules**:
+   - **Rate**: Flat 30% u/s 115BBH + 4% Cess.
+   - **Expenses**: NO deduction allowed (except cost of acquisition). Mining cost = NIL.
+   - **Set-off**: Loss from one crypto cannot be set off against profit from another.
+"""
 [CRITICAL LEGAL RULES]
 1. **Loan Default & Criminal Law (BNS vs NI Act)**:
    - **CORE RULE**: Loan default is CIVIL, not CRIMINAL. Police cannot arrest you for simple non-payment.
